@@ -6,6 +6,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: oven-sh/setup-bun@v2
-      - run: bun install --frozen-lockfile
+      - run: bun install
       - run: bun test
       - run: bun run typecheck
