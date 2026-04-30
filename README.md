@@ -1,70 +1,33 @@
-# @font44/opencode-conf
+# opencode-conf
 
-Shared [OpenCode](https://opencode.ai) configuration: the `slim-tools` plugin,
-agent prompt overrides (`build`, `plan`, `general`), and skills
-(`fetch-website-in-markdown`, `flashcard-content-creator`).
-
-## What's inside
-
-- `plugins/slim-tools.ts` — truncates any tool description longer than 250
-  characters before it's sent to the model. Reduces prompt bloat.
-- `agents/` — prompt overrides for `build`, `plan`, and `general` agents.
-- `skills/` — skill definitions.
-- `AGENTS.md` — global instructions.
-- `opencode.jsonc` — reference config wiring everything together and disabling
-  the built-in `explore` and `general` agents.
+Personal [OpenCode](https://opencode.ai) configuration: slim-tools plugin,
+agent prompt overrides, skills, AGENTS.md.
 
 ## Install
 
-As an npm dependency:
+Clone, then point opencode at the directory via `OPENCODE_CONFIG_DIR`:
 
 ```bash
-bun add -d @font44/opencode-conf
-# or: npm i -D @font44/opencode-conf
+git clone git@github.com:font44/opencode-conf.git ~/code/opencode-conf
+# in ~/.zshrc (or equivalent):
+export OPENCODE_CONFIG_DIR="$HOME/code/opencode-conf"
 ```
 
-Then in your project's `opencode.jsonc`:
+OpenCode auto-loads `agents/`, `skills/`, `AGENTS.md`, `opencode.jsonc`, and
+`plugins/*.ts` from the directory, and backgrounds `bun install` on first
+launch.
 
-```jsonc
-{
-  "$schema": "https://opencode.ai/config.json",
-  "plugin": ["@font44/opencode-conf/slim-tools"]
-}
-```
+## Contents
 
-### Agents, skills, AGENTS.md
-
-These are filesystem assets that OpenCode loads from your config dir. Copy or
-symlink them from `node_modules/@font44/opencode-conf/` into your OpenCode
-config (e.g. `~/.config/opencode/` or per-project). Example:
-
-```bash
-cp -r node_modules/@font44/opencode-conf/{agents,skills,AGENTS.md} .
-```
-
-Or just clone this repo and point OpenCode at it directly — the included
-`opencode.jsonc` uses the relative path `./plugins/slim-tools.ts`.
+- `plugins/slim-tools.ts` — truncates tool descriptions > 250 chars.
+- `agents/` — prompt overrides for `build`, `plan`, `general`.
+- `skills/` — skill definitions.
+- `AGENTS.md` — global instructions.
+- `opencode.jsonc` — config stub.
 
 ## Develop
 
 ```bash
-bun install
-bun test          # unit tests + asset sanity checks
-bun run typecheck
+npm install
+npm run typecheck
 ```
-
-### Manual smoke test
-
-In a scratch project:
-
-```jsonc
-// opencode.jsonc
-{ "plugin": ["file:/abs/path/to/opencode-conf"] }
-```
-
-Run `opencode`, trigger a tool call, and confirm long tool descriptions get
-truncated to 250 chars + `...`.
-
-## License
-
-MIT

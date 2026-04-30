@@ -3,25 +3,11 @@
   "version": "0.1.0",
   "type": "module",
   "license": "MIT",
-  "files": [
-    "plugins",
-    "agents",
-    "skills",
-    "AGENTS.md",
-    "opencode.jsonc",
-    "README.md"
-  ],
-  "exports": {
-    ".": "./plugins/slim-tools.ts",
-    "./slim-tools": "./plugins/slim-tools.ts"
-  },
   "scripts": {
-    "test": "bun test",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@opencode-ai/plugin": "^1.14.0",
-    "@types/bun": "latest",
     "typescript": "^5.6.0"
   }
 }
